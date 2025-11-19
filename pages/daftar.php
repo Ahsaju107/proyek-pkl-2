@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../css/output.css">
 </head>
-<body class="font-secondary bg-gray-100">
+<body class="selection:text-white selection:bg-primary font-secondary bg-gray-100">
     <section class="bg-[url('../assets/img/daftar-bg.jpg')]  bg-cover min-h-screen flex items-center justify-center p-3">
         
         <div class="bg-gradient-to-br from-my-pink to-orange-300/40

@@ -19,7 +19,7 @@
             $sql = mysqli_query($conn, $query);
 
             if($sql){
-                header("location: ../admin.php");
+                header("location: ./produk.php");
             } else {
                 echo "waduh gagal";
             }
@@ -48,7 +48,7 @@
             $sql = mysqli_query($conn, $query);
 
             if($sql){
-                header('location: ../admin.php');
+                header('location: ./produk.php');
                 exit;
             } else {
                 echo "error!";
@@ -72,7 +72,7 @@
         
         
         if($sql){
-            header("Location: ../admin.php");
+            header("Location: ./produk.php");
         } else {
             echo "gagal hapus";
         }
@@ -96,13 +96,13 @@
                 $_SESSION['session_username'] = $username;
                 $_SESSION['session_password'] = $password;
                 $_SESSION['show_alert'] = true;
-                header("location: ../admin.php#product");
+                header("location: ./produk.php");
             } else {
                 $_SESSION['id_user'] = $result['#'];
                 $_SESSION['session_username'] = $username;
                 $_SESSION['session_password'] = $password;
                 $_SESSION['show_alert'] = true;
-                header("location: ../index.php#product");
+                header("location: ../index.php");
              }
             } 
              else {

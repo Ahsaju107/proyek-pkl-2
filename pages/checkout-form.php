@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../assets/img/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/output.css">
 </head>
-<body class="font-secondary bg-orange-600">
+<body class="selection:text-white selection:bg-primary font-secondary bg-orange-600">
     <section class="flex min-h-screen items-center justify-center text-white px-2">
         <form action="./proses.php" method="POST" class="w-full sm:w-[520px] pb-6 rounded-lg p-2">
             <div>

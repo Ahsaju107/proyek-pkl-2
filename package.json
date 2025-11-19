@@ -2,15 +2,23 @@
   "name": "crud_php",
   "version": "1.0.0",
   "description": "",
-  "main": "postcss.config.js",
+  "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Ahsaju107/proyek-pkl-2.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ahsaju107/proyek-pkl-2/issues"
+  },
+  "homepage": "https://github.com/Ahsaju107/proyek-pkl-2#readme",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.22",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18"
   }

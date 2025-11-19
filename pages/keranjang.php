@@ -7,7 +7,7 @@
    $query = "SELECT p.id_produk, p.nama_produk, p.harga_produk, p.gambar_produk FROM tb_keranjang k JOIN tb_produk p ON k.id_produk = p.id_produk WHERE k.id_user = '$id_user';";
    $sql = mysqli_query($conn, $query);
    $sql2 = mysqli_query($conn, $query2);
-  
+  $total_keranjang = mysqli_num_rows($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../css/output.css">
 </head>
 
-<body class="bg-gray-100 font-secondary">
+<body class="selection:text-white selection:bg-orange-600 bg-gray-100 font-secondary">
     <nav class="bg-orange-500 text-white shadow-[0_5px_8px_rgb(0,0,0,0.1)] w-full fixed top-0 z-50">
         <div class="container max-w-full flex justify-between p-3 items-center">
             <div class="flex gap-2 items-center">
@@ -30,7 +30,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m5 12 6-6m-6 6 6 6m-6-6h14" />
                     </svg></a>
-                <h1 class="font-semibold text-lg">Keranjang Saya <span class="font-normal">(1)</span></h1>
+                <h1 class="font-semibold text-lg">Keranjang Saya <span class="font-normal">(<?php echo $total_keranjang; ?>)</span></h1>
             </div>
             <div class="w-8">
                 <a href="#"><svg class="w-7 " viewBox="0 0 32 32">
@@ -56,84 +56,89 @@
         <section class="pt-8">
             <div class="container max-w-full flex flex-col lg:flex-row lg:px-3">
                 <div class="list-card px-2 flex flex-col gap-3 lg:w-2/3">
-
-                    <?php while($row = mysqli_fetch_assoc($sql) and  $result = mysqli_fetch_assoc($sql2)){ ?>
-                    <div
-                     data-id="<?php echo $result['id_keranjang']; ?>"
-                     data-jumlah="<?php echo $result['jumlah_produk']; ?>"
-                     data-harga = "<?php echo $row['harga_produk']; ?>"
-                     class="card relative flex gap-3 bg-white p-3 rounded-lg shadow-[0_5px_5px_rgb(0,0,0,0.1)]">
-                        <!-- Checkbox -->
-                        <div class="flex items-center">
-                            <label for="produk_<?php echo $row['nama_produk'];?>" class="inline-flex items-center">
-                                <input type="checkbox"
-                                    id="produk_<?php echo $row['nama_produk']; ?>" class="cart-checkbox appearance-none peer" value="<?php echo $result['id_keranjang']; ?>">
-                                <span
-                                    class="flex items-center justify-center w-6 h-6 border-2 border-gray-300 peer-checked:bg-orange-500 peer-checked:border-orange-500 rounded-md">
-                                    <svg fill="currentColor" class="text-white w-3" viewBox="0 0 78.369 78.369">
-                                        <path d="M78.049,19.015L29.458,67.606c-0.428,0.428-1.121,0.428-1.548,0L0.32,40.015c-0.427-0.426-0.427-1.119,0-1.547l6.704-6.704
-                        c0.428-0.427,1.121-0.427,1.548,0l20.113,20.112l41.113-41.113c0.429-0.427,1.12-0.427,1.548,0l6.703,6.704
-                        C78.477,17.894,78.477,18.586,78.049,19.015z" />
-                                    </svg>
-                                </span>
-                            </label>
-                        </div>
-
-                        <!-- Gambar Produk -->
-                        <img src="../assets/img/<?php echo $row['gambar_produk'];?>"
-                            alt="<?php echo $row['nama_produk'];?>" class="w-[120px] rounded-lg ">
-
-                        <!-- Info Produk -->
-                        <div class="flex flex-col justify-between w-full relative">
-                            <div class="judul-produk items-start">
-                                <h2 class="font-primary ml-2 font-semibold text-lg"><?php echo $row['nama_produk']; ?>
-                                </h2>
-                                <h3 class="ml-2 text-sm">Rp. <?php echo formatHarga($row['harga_produk']); ?></h3>
+                    <?php if(!mysqli_num_rows($sql)){ ?>
+                        <div class="p-4 bg-white w-full lg:w-1/2 mx-auto text-center text-slate-400 rounded-lg">Anda belum memasukkan produk satupun</div>
+                    <?php
+                     } else {
+                    ?>
+                        <?php while($row = mysqli_fetch_assoc($sql) and  $result = mysqli_fetch_assoc($sql2)){ ?>
+                        <div
+                        data-id="<?php echo $result['id_keranjang']; ?>"
+                        data-jumlah="<?php echo $result['jumlah_produk']; ?>"
+                        data-harga = "<?php echo $row['harga_produk']; ?>"
+                        class="card relative flex hover:ring-2 hover:ring-orange-500 hover:-translate-y-1 transition-all duration-100 gap-3 bg-white p-3 rounded-lg shadow-[0_5px_5px_rgb(0,0,0,0.1)]">
+                            <!-- Checkbox -->
+                            <div class="flex items-center">
+                                <label for="produk_<?php echo $row['nama_produk'];?>" class="inline-flex items-center">
+                                    <input type="checkbox"
+                                        id="produk_<?php echo $row['nama_produk']; ?>" class="cart-checkbox appearance-none peer" value="<?php echo $result['id_keranjang']; ?>">
+                                    <span
+                                        class="flex items-center justify-center w-6 h-6 border-2 border-gray-300 peer-checked:bg-orange-500 peer-checked:border-orange-500 rounded-md">
+                                        <svg fill="currentColor" class="text-white w-3" viewBox="0 0 78.369 78.369">
+                                            <path d="M78.049,19.015L29.458,67.606c-0.428,0.428-1.121,0.428-1.548,0L0.32,40.015c-0.427-0.426-0.427-1.119,0-1.547l6.704-6.704
+                            c0.428-0.427,1.121-0.427,1.548,0l20.113,20.112l41.113-41.113c0.429-0.427,1.12-0.427,1.548,0l6.703,6.704
+                            C78.477,17.894,78.477,18.586,78.049,19.015z" />
+                                        </svg>
+                                    </span>
+                                </label>
                             </div>
 
-                            <!-- Kuantitas/jumalh produk -->
-                            <div class="flex items-center gap-3">
-                                <div 
-                                    class="bg-gray-100 py-2 px-3 mt-2 flex gap-3 rounded-md shadow-[0_3px_3px_rgb(0,0,0,0.1)] w-max">
-                                    <button class="min-button w-5">
-                                        <svg fill="currentColor" viewBox="0 0 24 24" class="text-orange-600">
-                                            <path d="M19,13H5a1,1,0,0,1,0-2H19a1,1,0,0,1,0,2Z"></path>
-                                        </svg>
-                                    </button>
-                                    <label class="counterLabel"><?php echo $result['jumlah_produk']; ?></label>
-                                    <button class="plus-btn w-5">
-                                        <svg fill="currentColor" class="text-orange-600" viewBox="0 0 256 256">
-                                            <path
-                                                d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z" />
-                                        </svg>
-                                    </button>
+                            <!-- Gambar Produk -->
+                            <img src="../assets/img/<?php echo $row['gambar_produk'];?>"
+                                alt="<?php echo $row['nama_produk'];?>" class="w-[120px] rounded-lg ">
+
+                            <!-- Info Produk -->
+                            <div class="flex flex-col justify-between w-full relative">
+                                <div class="judul-produk items-start">
+                                    <h2 class="font-primary ml-2 font-semibold text-lg"><?php echo $row['nama_produk']; ?>
+                                    </h2>
+                                    <h3 class="ml-2 text-sm">Rp. <?php echo formatHarga($row['harga_produk']); ?></h3>
                                 </div>
 
-                                <a href="#" data-href="./proses.php?hapus_keranjang=<?php echo $result['id_keranjang']; ?>" class="del-btn mt-2 sm:hidden">
-                                    <svg class="text-orange-600 w-7" viewBox="0 0 1024 1024" fill="currentColor">
-                                        <path
-                                            d="M938.666667 313.6H85.333333c-17.066667 0-32-14.933333-32-32s14.933333-32 32-32h853.333334c17.066667 0 32 14.933333 32 32s-14.933333 32-32 32zM413.866667 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-12.8 32-32 32zM622.933333 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-14.933333 32-32 32z" />
-                                        <path
-                                            d="M753.066667 936.533333h-469.333334c-53.333333 0-96-42.666667-96-96V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 17.066667 14.933333 32 32 32h469.333334c17.066667 0 32-14.933333 32-32V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 51.2-42.666667 93.866667-96 93.866666z" />
-                                        <path
-                                            d="M753.066667 288c-17.066667 0-32-14.933333-32-32 0-55.466667-44.8-100.266667-100.266667-100.266667h-206.933333c-55.466667 0-100.266667 44.8-100.266667 100.266667 0 17.066667-14.933333 32-32 32s-32-14.933333-32-32c0-89.6 72.533333-164.266667 164.266667-164.266667h206.933333c89.6 0 164.266667 72.533333 164.266667 164.266667 0 17.066667-14.933333 32-32 32z" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+                                <!-- Kuantitas/jumalh produk -->
+                                <div class="flex items-center gap-3">
+                                    <div 
+                                        class="bg-gray-100 py-2 px-3 mt-2 flex gap-3 rounded-md shadow-[0_3px_3px_rgb(0,0,0,0.1)] w-max">
+                                        <button class="min-button w-5">
+                                            <svg fill="currentColor" viewBox="0 0 24 24" class="text-orange-600">
+                                                <path d="M19,13H5a1,1,0,0,1,0-2H19a1,1,0,0,1,0,2Z"></path>
+                                            </svg>
+                                        </button>
+                                        <label class="counterLabel"><?php echo $result['jumlah_produk']; ?></label>
+                                        <button class="plus-btn w-5">
+                                            <svg fill="currentColor" class="text-orange-600" viewBox="0 0 256 256">
+                                                <path
+                                                    d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
 
-                        <!-- Ikon Hapus -->
-                        <a href="#" data-href="./proses.php?hapus_keranjang=<?php echo $result['id_keranjang'];?>" class="del-btn absolute top-2 right-2 hidden sm:block">
-                            <svg class="text-orange-600 w-6" viewBox="0 0 1024 1024" fill="currentColor">
-                                <path
-                                    d="M938.666667 313.6H85.333333c-17.066667 0-32-14.933333-32-32s14.933333-32 32-32h853.333334c17.066667 0 32 14.933333 32 32s-14.933333 32-32 32zM413.866667 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-12.8 32-32 32zM622.933333 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-14.933333 32-32 32z" />
-                                <path
-                                    d="M753.066667 936.533333h-469.333334c-53.333333 0-96-42.666667-96-96V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 17.066667 14.933333 32 32 32h469.333334c17.066667 0 32-14.933333 32-32V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 51.2-42.666667 93.866667-96 93.866666z" />
-                                <path
-                                    d="M753.066667 288c-17.066667 0-32-14.933333-32-32 0-55.466667-44.8-100.266667-100.266667-100.266667h-206.933333c-55.466667 0-100.266667 44.8-100.266667 100.266667 0 17.066667-14.933333 32-32 32s-32-14.933333-32-32c0-89.6 72.533333-164.266667 164.266667-164.266667h206.933333c89.6 0 164.266667 72.533333 164.266667 164.266667 0 17.066667-14.933333 32-32 32z" />
-                            </svg>
-                        </a>
-                    </div>
+                                    <a href="#" data-href="./proses.php?hapus_keranjang=<?php echo $result['id_keranjang']; ?>" class="del-btn mt-2 sm:hidden">
+                                        <svg class="text-orange-600 w-7" viewBox="0 0 1024 1024" fill="currentColor">
+                                            <path
+                                                d="M938.666667 313.6H85.333333c-17.066667 0-32-14.933333-32-32s14.933333-32 32-32h853.333334c17.066667 0 32 14.933333 32 32s-14.933333 32-32 32zM413.866667 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-12.8 32-32 32zM622.933333 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-14.933333 32-32 32z" />
+                                            <path
+                                                d="M753.066667 936.533333h-469.333334c-53.333333 0-96-42.666667-96-96V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 17.066667 14.933333 32 32 32h469.333334c17.066667 0 32-14.933333 32-32V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 51.2-42.666667 93.866667-96 93.866666z" />
+                                            <path
+                                                d="M753.066667 288c-17.066667 0-32-14.933333-32-32 0-55.466667-44.8-100.266667-100.266667-100.266667h-206.933333c-55.466667 0-100.266667 44.8-100.266667 100.266667 0 17.066667-14.933333 32-32 32s-32-14.933333-32-32c0-89.6 72.533333-164.266667 164.266667-164.266667h206.933333c89.6 0 164.266667 72.533333 164.266667 164.266667 0 17.066667-14.933333 32-32 32z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Ikon Hapus -->
+                            <a href="#" data-href="./proses.php?hapus_keranjang=<?php echo $result['id_keranjang'];?>" class="del-btn absolute top-2 right-2 hidden sm:block">
+                                <svg class="text-orange-600 w-6" viewBox="0 0 1024 1024" fill="currentColor">
+                                    <path
+                                        d="M938.666667 313.6H85.333333c-17.066667 0-32-14.933333-32-32s14.933333-32 32-32h853.333334c17.066667 0 32 14.933333 32 32s-14.933333 32-32 32zM413.866667 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-12.8 32-32 32zM622.933333 789.333333c-17.066667 0-32-14.933333-32-32V424.533333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v332.8c0 17.066667-14.933333 32-32 32z" />
+                                    <path
+                                        d="M753.066667 936.533333h-469.333334c-53.333333 0-96-42.666667-96-96V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 17.066667 14.933333 32 32 32h469.333334c17.066667 0 32-14.933333 32-32V386.133333c0-17.066667 14.933333-32 32-32s32 14.933333 32 32v456.533334c0 51.2-42.666667 93.866667-96 93.866666z" />
+                                    <path
+                                        d="M753.066667 288c-17.066667 0-32-14.933333-32-32 0-55.466667-44.8-100.266667-100.266667-100.266667h-206.933333c-55.466667 0-100.266667 44.8-100.266667 100.266667 0 17.066667-14.933333 32-32 32s-32-14.933333-32-32c0-89.6 72.533333-164.266667 164.266667-164.266667h206.933333c89.6 0 164.266667 72.533333 164.266667 164.266667 0 17.066667-14.933333 32-32 32z" />
+                                </svg>
+                            </a>
+                        </div>
+                        <?php } ?>
                     <?php } ?>
                     
 

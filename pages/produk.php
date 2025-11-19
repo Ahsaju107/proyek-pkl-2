@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <?php 
-    include 'koneksi.php';
+    include '../koneksi.php';
 
     $query = "SELECT * FROM tb_produk;";
     $sql = mysqli_query($conn, $query);
@@ -14,114 +14,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warung orfevre - Dasboard</title>
-    <link rel="shortcut icon" href="./assets/img/icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="./css/output.css">
-     <!-- Flowbite CDN -->
+    <link rel="shortcut icon" href="../assets/img/icon.png" type="image/x-icon">
+     <link rel="stylesheet" href="../css/output.css">
+    <!-- Flowbite CDN -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
-<body class="font-secondary bg-gray-100">
+<body class="font-secondary bg-gray-100 selection:bg-primary selection:text-white">
     <?php if($_SESSION['id_user'] == '3'): ?>
          <!-- Navbar mobile Start -->
-    <nav class="bg-primary w-full md:hidden flex justify-between px-4 py-3 fixed top-0 z-10">
-        <h1 class="font-primary text-xl text-white font-bold">Dashboard</h1>
-        <!-- Tombol untuk membuka sidebar -->
-        <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button">
-            <i class="fa-solid fa-bars-staggered text-white"></i>
-        </button>
-    </nav>
-    <!--Navbar Mobile End-->
+            <?php include '../components/navbar.php';?>
+        <!--Navbar Mobile End-->
 
     <main class="bg-[url('../assets/img/bg-dashboard.png')] bg-cover min-h-screen">
         <div class="flex flex-col min-h-screen">
             <div class="flex flex-1">
-                <div class="bg-primary/70 w-16 md:h-screen md:translate-x-0 -translate-x-full fixed top-0 left-0 bottom-0 py-5">
-                    <!-- Tombol untuk membuka sidebar -->
-                     <div class="flex flex-col justify-between h-full ">
-                       <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button">
-                            <i class="fa-solid fa-dashboard text-white text-2xl"></i>
-                        </button>
-                        <form action="./pages/proses.php" method="post" class="flex justify-center">
-                            <button type="submit" name="keluar"><i class="fa-solid fa-right-from-bracket text-white text-2xl"></i></butt>
-                        </form>
-                     </div>
-                </div>
                 <!-- Sidebar Start -->
-                 <aside id="default-sidebar" aria-label="Sidebar"
-                    class="bg-purple-700 w-64 md:h-screen fixed bottom-0 top-0 left-0 z-40  overflow-y-auto transition-transform -translate-x-full text-white">
-                    <div class="bg-primary w-full h-48 flex flex-col gap-3 justify-center items-center">
-                        <div class="rounded-full bg-purple-900 w-20 overflow-hidden">
-                            <img src="./assets/img/icon.png" alt="" class="w-20">
-                        </div>
-                        <h1 class="text-xl font-semibold font-primary"><?php echo $_SESSION['session_username']; ?></h1>
-                    </div>
-                    <!-- Konten Utama Sidebar -->
-                    <div class="konten-sidebar">
-
-                        <!-- Konten Group 1 -->
-                        <div class="p-4">
-                            <h3 class="font-primary text-white/55">Group 1</h3>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-file"></i>
-                                <h4 class="font-semibold">Laporan</h4>
-                            </a>
-                           
-                        </div>
-                        <!-- Konten Group 2 -->
-                        <div class="p-4">
-                            <h3 class="font-primary text-white/55">Group 2</h3>
-                             <a href="./pages/penjualan.html"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-money-bill-trend-up"></i>
-                                <h4 class="font-semibold">Penjualan</h4>
-                            </a>
-                             <a href="./pages/pembelian.html"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-money-bill-transfer"></i>
-                                <h4 class="font-semibold">Pembelian</h4>
-                            </a>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-money-bill-wave"></i>
-                                <h4 class="font-semibold">Biaya</h4>
-                            </a>
-                        </div>
-                        <!-- Konten Group 3 -->
-                        <div class="p-4">
-                            <h3 class="font-primary text-white/55">Group 3</h3>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-address-book"></i>
-                                <h4 class="font-semibold">Kontak</h4>
-                            </a>
-                             <a href="admin.php"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-truck"></i>
-                                <h4 class="font-semibold">Produk</h4>
-                            </a>
-                        </div>
-                        <!-- Konten Group 4 -->
-                        <div class="p-4">
-                            <h3 class="font-primary text-white/55">Group 4</h3>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-book"></i>
-                                <h4 class="font-semibold">Akun [COA]</h4>
-                            </a>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-book"></i>
-                                <h4 class="font-semibold">Akun [kategori]</h4>
-                            </a>
-                        </div>
-                        <!-- Konten Group 5-->
-                        <div class="p-4">
-                            <h3 class="font-primary text-white/55">Group 5</h3>
-                             <a href="./pages/pengaturan.php"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2">
-                                <i class="fa-solid fa-bars"></i>
-                                <h4 class="font-semibold">Pengaturan</h4>
-                            </a>
-                        </div>
-
-                    </div>
-                </aside> 
-                
+                 <?php include '../components/sidebar.php';?>
                 <!--Sidebar End-->
 
                 <!-- Konten utama -->
@@ -133,9 +45,9 @@
                                     <h2 class="font-primary text-3xl font-bold text-center text-gray-100">Daftar <span class="text-primary">Produk</span> </h2>
 
                                     <div class="flex flex-col sm:flex-row sm:justify-between gap-3">
-                                        <a href="./pages/kelola.php"
+                                        <a href="./kelola.php"
                                         class="bg-primary rounded-lg p-3 text-sm font-bold text-white flex gap-1"><img
-                                        src="./assets/icon/plus-icon.svg" class="w-4" />Tambah Produk</a>
+                                        src="../assets/icon/plus-icon.svg" class="w-4" />Tambah Produk</a>
                                         <div class="flex rounded-lg bg-gray-200 hover:bg-gray-300 gap-2 px-2 group shadow-[0_3px_3px_rgb(0,0,0,0.1)]">
                                                 <svg viewBox="0 0 24 24" class="w-5 text-primary" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -169,12 +81,12 @@
                                             <td class="p-2">Rp. <?php echo  formatHarga($result['harga_produk']); ?></td>
                                             <td class="p-2"><?php echo  $result['satuan_produk']; ?></td>
                                             <td class="p-2"><?php echo  $result['kategori_produk']; ?></td>
-                                            <td class="p-2"><img src="./assets/img/<?php echo $result['gambar_produk'];?>"
+                                            <td class="p-2"><img src="../assets/img/<?php echo $result['gambar_produk'];?>"
                                                     alt="<?php echo $result['gambar_produk'];?>" class="w-[55px] lg:w-16 object-cover">
                                             </td>
                                             <td>
                                                 <div class="flex items-center gap-2 mr-2">
-                                                    <a href="./pages/kelola.php?ubah=<?php echo $result['id_produk']; ?>"
+                                                    <a href="./kelola.php?ubah=<?php echo $result['id_produk']; ?>"
                                                         class="bg-primary text-white rounded-lg w-10 h-10 hover:bg-transparent hover:ring-2 hover:ring-primary transition-all duration-200 group p-2"><svg
                                                             class=" mx-auto group-hover:text-primary"
                                                             style="vertical-align: middle;fill: currentColor;overflow: hidden;"
@@ -185,7 +97,7 @@
                                                                 d="M889.7 163.4c-22.9-22.9-53-34.4-83.1-34.4s-60.1 11.5-83.1 34.4L312 574.9c-16.9 16.9-27.9 38.8-31.2 62.5l-19 132.8c-1.6 11.4 7.3 21.3 18.4 21.3 0.9 0 1.8-0.1 2.7-0.2l132.8-19c23.7-3.4 45.6-14.3 62.5-31.2l411.5-411.5c45.9-45.9 45.9-120.3 0-166.2zM362 585.3L710.3 237 816 342.8 467.8 691.1 362 585.3zM409.7 730l-101.1 14.4L323 643.3c1.4-9.5 4.8-18.7 9.9-26.7L436.3 720c-8 5.2-17.1 8.7-26.6 10z m449.8-430.7l-13.3 13.3-105.7-105.8 13.3-13.3c14.1-14.1 32.9-21.9 52.9-21.9s38.8 7.8 52.9 21.9c29.1 29.2 29.1 76.7-0.1 105.8z" />
                                                         </svg></a>
                                                         <!--TOMBOL HAPUS DATA START -->
-                                                    <a href="#" data-href="./pages/proses.php?hapus=<?php echo $result['id_produk']; ?>"
+                                                    <a href="#" data-href="./proses.php?hapus=<?php echo $result['id_produk']; ?>"
                                                             class="del-btn bg-red-600 text-white rounded-lg w-10 h-10 p-2 hover:bg-transparent hover:ring-2 hover:ring-red-600 transition-all duration-200 group"><svg
                                                             class="w-full group-hover:text-red-600"
                                                             style="vertical-align: middle;fill: currentColor;overflow: hidden;"
@@ -225,7 +137,7 @@
     <?php endif; ?>
 
       <!-- Script CDN Flowbite -->
-      <script type="module" src="script.js"></script>
+      <script type="module" src="../script.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -235,7 +147,7 @@
             Swal.fire({
                 title: "Atmin telah tiba!",
                 text: "Selamat datang wahai atmin yang terhormat",
-                imageUrl: "./assets/img/symboli-rudolf-3.gif",
+                imageUrl: "../assets/img/symboli-rudolf-3.gif",
                 imageWidth: 160,
                 showConfirmButton: true,
                 confirmButtonText: "Cihuyy",
@@ -250,7 +162,7 @@
             Swal.fire({
                 title: "Akses ditolak!",
                 text: "Halaman ini hanya boleh diakses oleh user admin!",
-                imageUrl: "./assets/img/goldship-2.gif",
+                imageUrl: "../assets/img/goldship-2.gif",
                 imageWidth: 160,
                 showConfirmButton: true,
                 confirmButtonColor: "#FB8C00",
@@ -258,13 +170,13 @@
                 allowEscapeKey: false
             }).then((result) => {
                 if(result.isConfirmed){
-                    window.location.href = './pages/login.php';
+                    window.location.href = './login.php';
                 }
             })
           
         </script>
      <?php unset($_SESSION['id_user']); endif; ?>
-     <script src="./js/search.js"></script>
+     <script src="../js/search.js"></script>
 </body>
 
 </html>

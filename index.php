@@ -20,7 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body class="font-secondary bg-gray-100 min-h-screen flex flex-col">
+<body class="font-secondary selection:bg-orange-600 selection:text-white bg-gray-100 min-h-screen flex flex-col">
     <nav
         class="fixed top-0 z-10 bg bg-orange-600/80 backdrop-blur-md w-full flex justify-between p-3 lg:px-5 items-center">
         <div class="flex gap-2 items-center">
@@ -95,55 +95,65 @@
 
         <section id="product" class="pt-14 px-2 lg:px-5">
             <div class="container max-w-full bg-gray-200 py-6  rounded-lg">
-                <div class="list-card grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-3">
+                <div class="list-card grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 px-3">
 
-                    <?php 
-                while($result = mysqli_fetch_assoc($sql)){
-                     ?>
-                    <div
-                        class="relative produk-item  overflow-hidden hover:ring-2 hover:ring-orange-500 rounded-lg shadow-[0_5px_10px_rgb(0,0,0,0.3)]">
-                        <img src="./assets/img/<?php echo $result['gambar_produk']; ?>"
-                            class="w-full h-52 object-cover">
+                    <?php if(!mysqli_num_rows($sql)){ ?>
+                        <h1 class="text-center">Tidak ada produk satupun</h1>
+                    <?php } else { ?>
+                        <?php 
+                        while($result = mysqli_fetch_assoc($sql)){
+                        ?>
+                            <div
+                                class="relative produk-item  overflow-hidden hover:ring-2 hover:ring-orange-500 rounded-lg shadow-[0_5px_10px_rgb(0,0,0,0.3)]">
+                                <img src="./assets/img/<?php echo $result['gambar_produk']; ?>"
+                                    class="w-full h-52 object-cover">
 
-                        <div class=" absolute bottom-0 px-2 w-full pt-24"  style="background: linear-gradient(to top, rgba(249,115,22,0.95) 0%, rgba(249,115,22,0.9) 30%, rgba(249,115,22,0) 100%);">
-                            <h3 class="text-lg font-bold font-primary text-gray-100">
-                                <?php echo $result['nama_produk']; ?></h3>
-                            <div class="flex justify-between pb-3">
+                                <div class=" absolute bottom-0 px-2 w-full pt-24"  style="background: linear-gradient(to top, rgba(249,115,22,0.95) 0%, rgba(249,115,22,0.9) 30%, rgba(249,115,22,0) 100%);">
+                                        <div class="flex gap-1">
+                                            <div class="flex items-center justify-center bg-orange-400 text-white w-1/2 py-1 text-xs text-center rounded-full"><?php echo $result['kategori_produk'];?></div>
+                                            <div class="flex items-center justify-center bg-orange-400 text-white w-1/2 py-1 text-xs text-center rounded-full"><?php echo $result['satuan_produk'];?></div>
+                                        </div>
+                                        <h3 class=" font-bold font-primary text-gray-100">
+                                            <?php echo $result['nama_produk']; ?>
+                                        </h3>
 
-                                <div class="flex gap-1">
-                                    <a><img src="./assets/icon/money-icon.svg" alt="money-icon" class="w-6" /></a>
-                                    <h4 class="font-semibold text-white text-sm">Rp.
-                                        <?php echo formatHarga($result['harga_produk']); ?></h4>
+                                    <div class="flex justify-between pb-3">
+
+                                        <div class="flex gap-1">
+                                            <a><img src="./assets/icon/money-icon.svg" alt="money-icon" class="w-6" /></a>
+                                            <h4 class="font-semibold text-white text-sm">Rp.
+                                                <?php echo formatHarga($result['harga_produk']); ?></h4>
+                                        </div>
+                                        <form action="./pages/proses.php" method="post">
+                                            <input type="hidden" name="id_produk" value="<?php echo $result['id_produk']; ?>">
+                                            <button type="submit" name="tambah_keranjang" class="group tambah_keranjang text-white">
+                                                <svg 
+                                                    class="w-6 mr-2 group-hover:text-orange-300" viewBox="0 0 32 32">
+                                                    <defs>
+                                                        <style>
+                                                        .cls-1 {
+                                                            fill: currentColor;
+                                                        }
+                                                        </style>
+                                                    </defs>
+                                                    <g id="shopping_cart" data-name="shopping cart">
+                                                        <path class="cls-1"
+                                                            d="M29.74,8.32A1,1,0,0,0,29,8H13a1,1,0,0,0,0,2H27.91l-.81,9.48a1.87,1.87,0,0,1-2,1.52H12.88a1.87,1.87,0,0,1-2-1.52L10,8.92l0-.08s0-.06,0-.08L9.33,6.2A3.89,3.89,0,0,0,7,3.52L3.37,2.07a1,1,0,0,0-.74,1.86L6.25,5.38a1.89,1.89,0,0,1,1.14,1.3L8,9.16l.9,10.49a3.87,3.87,0,0,0,4,3.35H13v2.18a3,3,0,1,0,2,0V23h8v2.18a3,3,0,1,0,2,0V23h.12a3.87,3.87,0,0,0,4-3.35L30,9.08A1,1,0,0,0,29.74,8.32ZM14,29a1,1,0,1,1,1-1A1,1,0,0,1,14,29Zm10,0a1,1,0,1,1,1-1A1,1,0,0,1,24,29Z" />
+                                                        <path class="cls-1" d="M15,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
+                                                        <path class="cls-1" d="M20,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
+                                                        <path class="cls-1" d="M25,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+
                                 </div>
-                                <form action="./pages/proses.php" method="post">
-                                    <input type="hidden" name="id_produk" value="<?php echo $result['id_produk']; ?>">
-                                    <button type="submit" name="tambah_keranjang" class="group tambah_keranjang text-white">
-                                        <svg 
-                                            class="w-6 mr-2 group-hover:text-orange-300" viewBox="0 0 32 32">
-                                            <defs>
-                                                <style>
-                                                .cls-1 {
-                                                    fill: currentColor;
-                                                }
-                                                </style>
-                                            </defs>
-                                            <g id="shopping_cart" data-name="shopping cart">
-                                                <path class="cls-1"
-                                                    d="M29.74,8.32A1,1,0,0,0,29,8H13a1,1,0,0,0,0,2H27.91l-.81,9.48a1.87,1.87,0,0,1-2,1.52H12.88a1.87,1.87,0,0,1-2-1.52L10,8.92l0-.08s0-.06,0-.08L9.33,6.2A3.89,3.89,0,0,0,7,3.52L3.37,2.07a1,1,0,0,0-.74,1.86L6.25,5.38a1.89,1.89,0,0,1,1.14,1.3L8,9.16l.9,10.49a3.87,3.87,0,0,0,4,3.35H13v2.18a3,3,0,1,0,2,0V23h8v2.18a3,3,0,1,0,2,0V23h.12a3.87,3.87,0,0,0,4-3.35L30,9.08A1,1,0,0,0,29.74,8.32ZM14,29a1,1,0,1,1,1-1A1,1,0,0,1,14,29Zm10,0a1,1,0,1,1,1-1A1,1,0,0,1,24,29Z" />
-                                                <path class="cls-1" d="M15,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
-                                                <path class="cls-1" d="M20,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
-                                                <path class="cls-1" d="M25,18V13a1,1,0,0,0-2,0v5a1,1,0,0,0,2,0Z" />
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </form>
                             </div>
-
-                        </div>
-                    </div>
-                    <?php 
-                    }
-                   ?>
+                        <?php 
+                            }
+                        ?>  
+                    <?php } ?>
 
                 </div>
             </div>
