@@ -516,7 +516,19 @@
                                     <!-- Lampiran -->
                                     <div class="w-full flex flex-wrap gap-2">
                                         <p class="text-xs font-semibold text-gray-800/70">Lampiran</p>
-                                        <label for="" class="w-full h-48 border border-primary rounded text-primary backdrop-blur-lg hover:bg-primary hover:text-white duration-100 transition-all text-sm flex flex-col gap-3 items-center justify-center"><i class="fa-solid fa-upload text-3xl"></i>Drag and drop a file here or click</label>
+                                        <label id="drop-area" for="input-file" class="relative overflow-hidden w-full h-48 border border-primary rounded text-primary backdrop-blur-lg hover:bg-primary hover:text-white duration-100 transition-all text-sm flex flex-col gap-3 items-center justify-center">
+                                            <input type="file" name="" id="input-file" accept="image/*" hidden>
+                                              <img id="img-view"
+                                                src=""
+                                                class="absolute inset-0 w-full h-full object-contain hidden">
+                                                
+                                            <div id="overlay" class="absolute inset-0 gap-3 flex flex-col justify-center items-center">
+                                                <i class="fa-solid fa-upload text-4xl"></i>
+                                                <span>
+                                                    Drag and drop a file here or click
+                                                </span>
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -754,7 +766,19 @@
                                     <!-- Lampiran -->
                                     <div class="w-full flex flex-wrap gap-2">
                                         <p class="text-xs font-semibold text-gray-800/70">Lampiran</p>
-                                        <label for="" class="w-full h-48 border border-primary rounded text-primary backdrop-blur-lg hover:bg-primary hover:text-white duration-100 transition-all text-sm flex flex-col gap-3 items-center justify-center"><i class="fa-solid fa-upload text-3xl"></i>Drag and drop a file here or click</label>
+                                        <label id="drop-area" for="input-file" class="relative overflow-hidden w-full h-48 border border-primary rounded text-primary backdrop-blur-lg hover:bg-primary hover:text-white duration-100 transition-all text-sm flex flex-col gap-3 items-center justify-center">
+                                            <input type="file" name="" id="input-file" accept="image/*" hidden>
+                                              <img id="img-view"
+                                                src=""
+                                                class="absolute inset-0 w-full h-full object-contain hidden">
+                                                
+                                            <div id="overlay" class="absolute inset-0 gap-3 flex flex-col justify-center items-center">
+                                                <i class="fa-solid fa-upload text-4xl"></i>
+                                                <span>
+                                                    Drag and drop a file here or click
+                                                </span>
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -832,7 +856,33 @@
             })
         });
     </script>
+    <!-- drag and drop -->
+     <script>
+        const dropArea = document.getElementById('drop-area');
+        const inputFile = document.getElementById('input-file');
+        const imageView = document.getElementById('img-view');
+        const overlay = document.getElementById('overlay');
 
+        inputFile.addEventListener("change", uploadImage);
+
+        function uploadImage(){
+            let imgLink = URL.createObjectURL(inputFile.files[0]);
+            imageView.src = imgLink;
+            imageView.classList.remove('hidden');
+            overlay.classList.add('hidden');
+        }
+
+        dropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        })
+
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            inputFile.files = e.dataTransfer.files;
+            uploadImage();
+        })
+
+     </script>
     <script>
         function imagePopup(imageName){
         const imgName = imageName;
