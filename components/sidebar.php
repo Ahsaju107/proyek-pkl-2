@@ -25,7 +25,7 @@
                         <!-- Konten Group 1 -->
                         <div class="p-4">
                             <h3 class="font-primary text-white/55">Group 1</h3>
-                             <a href="#"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2 hover:-translate-y-1 transition-transform duration-150">
+                             <a href="laporan.php"  class="flex items-center gap-3 w-full hover:bg-primary rounded-lg p-2 hover:-translate-y-1 transition-transform duration-150">
                                 <i class="fa-solid fa-file"></i>
                                 <h4 class="font-semibold">Laporan</h4>
                             </a>

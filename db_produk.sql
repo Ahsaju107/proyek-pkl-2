@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 29, 2025 at 04:18 AM
+-- Generation Time: Nov 23, 2025 at 11:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,7 +76,9 @@ INSERT INTO `tb_keranjang` (`id_keranjang`, `id_user`, `id_produk`, `jumlah_prod
 (140, '2', '137', 1),
 (141, '2', '138', 1),
 (142, '2', '139', 1),
-(143, '2', '142', 2);
+(143, '2', '142', 2),
+(156, '3', '153', 1),
+(157, '3', '140', 1);
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,9 @@ CREATE TABLE `tb_metode_pembayaran` (
 INSERT INTO `tb_metode_pembayaran` (`id_metode_pembayaran`, `metode_pembayaran`) VALUES
 (1, 'Qris'),
 (2, 'BRI'),
-(4, 'biji kuda');
+(5, 'Dana'),
+(6, 'PayPall'),
+(8, 'ShopeePay');
 
 -- --------------------------------------------------------
 
@@ -157,17 +161,16 @@ CREATE TABLE `tb_produk` (
 --
 
 INSERT INTO `tb_produk` (`id_produk`, `nama_produk`, `harga_produk`, `satuan_produk`, `kategori_produk`, `gambar_produk`) VALUES
-(134, 'Sushi', 57000, 'Unit', 'Makanan', 'sushi.jpg'),
-(135, 'Gurame Gosong', 34000, 'Unit', 'Makanan', 'gurame-bakar.jpg'),
-(137, 'Nasi padang', 13000, 'Unit', 'Makanan', 'nasi-padang.jpeg'),
-(138, 'Sate Koruptor', 5000, 'Unit', 'Makanan', 'sate.jpg'),
-(139, 'Ramen Ichiraku', 44000, 'Unit', 'Makanan', 'ramen.jpg'),
-(140, 'Ketoprak', 12000, 'Unit', 'Makanan', 'ketoprak.jpg'),
-(141, 'Nasi Goreng', 14000, 'Unit', 'makanan', 'nasi-goreng.jpg'),
+(134, 'Sushi', 57000, 'porsi', 'makanan', 'sushi.jpg'),
+(135, 'Gurame', 34000, 'unit', 'makanan', 'gurame-bakar.jpg'),
+(137, 'Nasi padang', 13000, 'porsi', 'makanan', 'nasi-padang.jpeg'),
+(138, 'Sate Koruptor', 5000, 'porsi', 'makanan', 'sate.jpg'),
+(139, 'Ramen Ichiraku', 44000, 'porsi', 'makanan', 'ramen.jpg'),
+(140, 'Ketoprak', 12000, 'porsi', 'makanan', 'ketoprak.jpg'),
+(141, 'Nasi Goreng', 14000, 'porsi', 'makanan', 'nasi-goreng.jpg'),
 (149, 'AK-47 Mamat Gunshop', 4000000, 'unit', 'Senjata Api', 'ak47.jpg'),
 (150, 'Racun Sianida', 1000000, 'kilo', 'Racun', 'ini-alasan-kenapa-sianida-bisa-membunuhmu.jpg'),
-(151, 'sempak gusion', 400000, 'unit', 'pakaian dalam', 'Mobile-Legends-Bang-Bang-Gusion-Holy-Blade-Mens-Boxers-lifestyle.jpg'),
-(152, 'black worker (premium)', 9800000, 'unit', 'makanan', 'black-worker.jpg'),
+(152, 'black worker', 9800000, 'unit', 'Hewan', 'black-worker.jpg'),
 (153, 'Goblin Super', 55000000, 'unit', 'Hewan', 'goblin.jpeg');
 
 -- --------------------------------------------------------
@@ -189,7 +192,8 @@ INSERT INTO `tb_satuan` (`id_satuan`, `nama_satuan`) VALUES
 (16, 'unit'),
 (21, 'liter'),
 (31, 'kilo'),
-(32, 'pack');
+(32, 'pack'),
+(33, 'porsi');
 
 -- --------------------------------------------------------
 
@@ -208,8 +212,7 @@ CREATE TABLE `tb_tags_transaksi` (
 
 INSERT INTO `tb_tags_transaksi` (`id_tags_transaksi`, `tags_transaksi`) VALUES
 (1, 'Makanan'),
-(2, 'Minuman'),
-(6, 'pler');
+(2, 'Minuman');
 
 -- --------------------------------------------------------
 
@@ -335,13 +338,13 @@ ALTER TABLE `tb_kategori`
 -- AUTO_INCREMENT for table `tb_keranjang`
 --
 ALTER TABLE `tb_keranjang`
-  MODIFY `id_keranjang` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id_keranjang` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `tb_metode_pembayaran`
 --
 ALTER TABLE `tb_metode_pembayaran`
-  MODIFY `id_metode_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_metode_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tb_opsi_pembayaran`
@@ -365,7 +368,7 @@ ALTER TABLE `tb_produk`
 -- AUTO_INCREMENT for table `tb_satuan`
 --
 ALTER TABLE `tb_satuan`
-  MODIFY `id_satuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_satuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tb_tags_transaksi`

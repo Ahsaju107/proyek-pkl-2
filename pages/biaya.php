@@ -95,25 +95,51 @@
                         </div>
                         <!-- Grid List end -->
                         <!-- Action Button -->
-                        <div class="flex flex-wrap gap-3 justify-between mb-3">
-                            <button id="dropDownDividerButton" data-dropdown-toggle="dropdownDivider" class="bg-primary rounded-lg w-48 text-white py-3 px-3 text-[12px] flex justify-between items-center"><i class="fa-solid fa-gear"></i>Management Action <i class="fa-solid fa-caret-down"></i></button>
-                            <select name="" id="" class="w-full sm:w-48 p-3 text-[12px] bg-transparent border border-primary text-primary focus:ring-2 focus:ring-primary/50 rounded-lg">
-                                <option value="">Semua Status</option>
-                                <option value="">Pending</option>
-                                <option value="">Approve</option>
-                                <option value="">Cancel</option>
-                                <option value="">Jatuh Tempo</option>
-                                <option value="">Lunas</option>
-                            </select>
-                            <select id="dropdownDivider" class="z-10 hidden bg-white divide-y rounded text-[12px]">
-                                <option value="">
-                                    <a href="#" class="py-2 px-10 flex gap-1 items-center "><i class="fa-solid fa-plus text-primary"></i>Buat Pembelian</a>
-                                </option>
-                                <option value="">
-                                    <a href="#" class="py-2 px-10 flex gap-1 items-center"><i class="fa-solid fa-plus text-primary"></i>Return Pembelian</a>
-                                </option>
-                            </select>
-                        </div>
+                            <div class="flex flex-wrap flex-col gap-3 mb-3">
+                                <!-- Component Start -->
+                                <div class="relative">
+                                    <button type="button" class="action-btn bg-primary rounded-lg w-48 text-white py-3 px-3 text-[12px] flex justify-between items-center focus:outline-none">
+                                        <span class="text-[12px] leading-none">
+                                            <i class="fa-solid fa-gear"></i>
+                                            Management Action
+                                        </span>
+                                        <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <div class="show-action hidden absolute flex-col w-48 mt-1 drop-shadow-lg">
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Biaya</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Withdraw</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Deposit</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Transfer</a>
+                                    </div>
+                                </div>
+    
+                                <div class="flex gap-3">
+                                    <!-- Semua Kontak -->
+                                    <select name="" id="" class="w-full sm:w-48 p-3 text-[12px] bg-transparent border border-primary text-primary focus:ring-2 focus:ring-primary/50 rounded-lg">
+                                        <option value="">Semua Kontak</option>
+                                    </select>
+                                    <!-- Semua Type -->
+                                    <select name="" id="" class="w-full sm:w-48 p-3 text-[12px] bg-transparent border border-primary text-primary focus:ring-2 focus:ring-primary/50 rounded-lg">
+                                        <option value="">Semua Type</option>
+                                        <option value="">Biaya</option>
+                                        <option value="">Deposit</option>
+                                        <option value="">Withdraw</option>
+                                        <option value="">Transfer</option>
+                                    </select>
+                                    <!-- Semua Status -->
+                                    <select name="" id="" class="w-full sm:w-48 p-3 text-[12px] bg-transparent border border-primary text-primary focus:ring-2 focus:ring-primary/50 rounded-lg">
+                                        <option value="">Semua Status</option>
+                                        <option value="">Pending</option>
+                                        <option value="">Approve</option>
+                                        <option value="">Cancel</option>
+                                        <option value="">Jatuh Tempo</option>
+                                        <option value="">Lunas</option>
+                                    </select>
+                                </div>
+                            
+                            </div>
 
                        <!-- Search bar yang responsif -->
                         <div class="flex justify-end mb-3">
@@ -169,5 +195,6 @@
 
     <!-- Script CDN Flowbite -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 </html>

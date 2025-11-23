@@ -3,18 +3,30 @@ const pembayaranBtn = document.querySelector('#pembayaran-btn-page');
 const transaksiBtn = document.querySelector('#transaksi-btn-page');
 const pembungkusTransaksi = document.querySelector('.pembungkus-transaksi');
 const pembungkusPembayaran = document.querySelector('.pembungkus-pembayaran');
+const show_actions = document.querySelector('.show-action');
 
-actionBtn.addEventListener('click', () =>{
-    const show_actions = document.querySelector('.show-action');
+actionBtn.addEventListener('click', (e) =>{
+    e.stopPropagation();
 
     if(show_actions.classList.contains('hidden')){
         show_actions.classList.remove('hidden');
         show_actions.classList.add('flex');
-    } else {
+    }else {
         show_actions.classList.add('hidden');
         show_actions.classList.remove('flex');
     }
+    
 });
+
+document.addEventListener('click', (e) => {
+    if(!show_actions.contains(e.target) && !actionBtn.contains(e.target)){
+        show_actions.classList.add('hidden');
+        show_actions.classList.remove('flex');
+    }
+})
+
+
+
 
 function setPage(page){
     if(page == 'transaksi'){
