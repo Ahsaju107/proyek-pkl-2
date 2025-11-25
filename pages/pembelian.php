@@ -145,7 +145,7 @@
                                 </div>
                             </div>
     
-                             <!-- Tabel Data Start -->
+                                <!-- Tabel Data Start -->
                                 <div class="overflow-x-auto -mx-4 sm:mx-0">
                                     <div class="min-w-[640px] px-4 py-2">
                                         <table class="w-full">
@@ -164,17 +164,90 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
-                                                <tr class="hover:bg-gray-100/60">
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">1</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                </tr>
+                                                <?php
+                                                // Query untuk mengambil data penjualan dengan JOIN ke tabel detail
+                                                $query = "SELECT 
+                                                            jmp.*,
+                                                            GROUP_CONCAT(DISTINCT jmpa.pm_item ORDER BY jmpa.pm_id SEPARATOR ', ') as items
+                                                        FROM jur_main_pempen jmp
+                                                        LEFT JOIN jur_main_pempen_adds jmpa ON jmp.fact_code = jmpa.pm_nomor
+                                                        WHERE jmp.fact_type_trx = 'pem' 
+                                                        GROUP BY jmp.fact_code
+                                                        ORDER BY jmp.fact_tanggal DESC";
+                                                
+                                                $result = mysqli_query($conn, $query);
+                                                
+                                                if(!$result) {
+                                                    echo "<tr><td colspan='10'>Error: " . mysqli_error($conn) . "</td></tr>";
+                                                } else {
+                                                    $no = 1;
+                                                    
+                                                    while($row = mysqli_fetch_assoc($result)):
+                                                        // Tentukan status display
+                                                        $status_text = '';
+                                                        $status_color = '';
+                                                        
+                                                        // Cek apakah sudah lunas
+                                                        if($row['fact_tagihan'] == 0) {
+                                                            $status_text = 'Lunas';
+                                                            $status_color = 'text-green-500 font-semibold';
+                                                        } else {
+                                                            switch($row['fact_status']) {
+                                                                case 'P':
+                                                                    $status_text = 'Pending';
+                                                                    $status_color = 'text-yellow-500';
+                                                                    break;
+                                                                case 'A':
+                                                                    $status_text = 'Approved';
+                                                                    $status_color = 'text-blue-500';
+                                                                    break;
+                                                                case 'R':
+                                                                    $status_text = 'Rejected';
+                                                                    $status_color = 'text-red-500';
+                                                                    break;
+                                                            }
+                                                        }
+                                                        
+                                                        $type_text = 'Pembelian';
+    
+                                                        $tags_text = '';
+                                                        if($row['fact_auto'] == 'B') {
+                                                            $tags_text = 'Pembelian By POS';
+                                                        } elseif($row['fact_auto'] == 'M') {
+                                                            $tags_text = 'Pembelian Manual';
+                                                        } else {
+                                                            $tags_text = !empty($row['fact_tags']) ? $row['fact_tags'] : '-';
+                                                        }
+                                                        ?>
+
+                                                    <tr class="hover:bg-gray-100/60">
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $no++; ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo date('Y-m-d', strtotime($row['fact_tanggal'])); ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs">
+                                                            <div class="text-red-500 font-medium"><?php echo $row['fact_code']; ?></div>
+                                                            <div class="text-gray-500 text-[10px]">Transaksi Pembelian #<?php echo $row['fact_code']; ?></div>
+                                                        </td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs">
+                                                            <div class="text-red-500"><?php echo $row['fact_datauser']; ?></div>
+                                                            <?php if(!empty($row['fact_datauser_hutang'])): ?>
+                                                            <div class="text-gray-500 text-[10px]">#<?php echo $row['fact_datauser_hutang']; ?></div>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo date('Y-m-d', strtotime($row['fact_tempo'])); ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $type_text; ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs <?php echo $status_color; ?>"><?php echo $status_text; ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo number_format($row['fact_total'], 0, ',', '.'); ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo number_format($row['fact_tagihan'], 0, ',', '.'); ?></td>
+                                                        <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $tags_text; ?></td>
+                                                    </tr>
+                                                    <?php 
+                                                    endwhile;
+                                                    
+                                                    if(mysqli_num_rows($result) == 0) {
+                                                        echo "<tr><td colspan='10' class='text-center py-4 text-gray-500'>Tidak ada data</td></tr>";
+                                                    }
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -279,40 +352,97 @@
                                 </div>
                             </div>
     
-                             <!-- Tabel Data Start -->
-                                <div class="overflow-x-auto -mx-4 sm:mx-0">
-                                    <div class="min-w-[640px] px-4 py-2">
-                                        <table class="w-full">
-                                            <thead class="text-left">
-                                                <tr>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">NO</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TANGGAL</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">CODE PAYMENT</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">CODE TAGIHAN</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">PENERIMA</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">STATUS</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TOTAL PEMBAYARAN</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TAGS</th>
-                                                    <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TYPE</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="divide-y divide-gray-200">
+                            <!-- Tabel Data Start -->
+                            <div class="overflow-x-auto -mx-4 sm:mx-0">
+                                <div class="min-w-[640px] px-4 py-2">
+                                    <table class="w-full">
+                                        <thead class="text-left">
+                                            <tr>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">NO</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TANGGAL</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">CODE PAYMENT</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">CODE TAGIHAN</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">PENERIMA</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">STATUS</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TOTAL PEMBAYARAN</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TAGS</th>
+                                                <th class="px-2 py-2 text-[11px] sm:text-xs font-medium">TYPE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <?php
+                                            // Query untuk mengambil data pembayaran penjualan
+                                            $query_payment = "SELECT * FROM jur_main_payment WHERE payment_type_trx = 'pem' ORDER BY payment_tanggal DESC";
+                                            $result_payment = mysqli_query($conn, $query_payment);
+                                            
+                                            if(!$result_payment) {
+                                                echo "<tr><td colspan='9'>Error: " . mysqli_error($conn) . "</td></tr>";
+                                            } else {
+                                                $no = 1;
+                                                
+                                                while($row = mysqli_fetch_assoc($result_payment)):
+                                                    // Tentukan status
+                                                    $status_text = '';
+                                                    $status_color = '';
+                                                    switch($row['payment_status']) {
+                                                        case 'P':
+                                                            $status_text = 'Pending';
+                                                            $status_color = 'text-yellow-500';
+                                                            break;
+                                                        case 'A':
+                                                            $status_text = 'Approved';
+                                                            $status_color = 'text-green-500 font-semibold';
+                                                            break;
+                                                        case 'R':
+                                                            $status_text = 'Rejected';
+                                                            $status_color = 'text-red-500';
+                                                            break;
+                                                    }
+                                                    
+                                                        $type_text = 'Pembelian';
+    
+                                                        $tags_text = '';
+                                                        if($row['fact_auto'] == 'B') {
+                                                            $tags_text = 'Pembelian By POS';
+                                                        } elseif($row['fact_auto'] == 'M') {
+                                                            $tags_text = 'Pembelian Manual';
+                                                        } else {
+                                                            $tags_text = !empty($row['fact_tags']) ? $row['fact_tags'] : '-';
+                                                        }
+                                                ?>
                                                 <tr class="hover:bg-gray-100/60">
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">1</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
-                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">test</td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $no++; ?></td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo date('Y-m-d', strtotime($row['payment_tanggal'])); ?></td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">
+                                                        <div class="text-red-500 font-medium"><?php echo $row['payment_code']; ?></div>
+                                                        <div class="text-gray-500 text-[10px]">Pembayaran Penjualan</div>
+                                                    </td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">
+                                                        <div class="text-red-500"><?php echo $row['payment_invoice']; ?></div>
+                                                    </td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs">
+                                                        <div class="text-red-500"><?php echo $row['payment_datauser']; ?></div>
+                                                        <?php if(!empty($row['payment_email'])): ?>
+                                                        <div class="text-gray-500 text-[10px]"><?php echo $row['payment_email']; ?></div>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs <?php echo $status_color; ?>"><?php echo $status_text; ?></td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo number_format($row['payment_total'], 0, ',', '.'); ?></td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $row['payment_tags']; ?></td>
+                                                    <td class="px-2 py-2 text-[11px] sm:text-xs"><?php echo $type_text; ?></td>
                                                 </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                <?php 
+                                                endwhile;
+                                                
+                                                if(mysqli_num_rows($result_payment) == 0) {
+                                                    echo "<tr><td colspan='9' class='text-center py-4 text-gray-500'>Tidak ada data pembayaran</td></tr>";
+                                                }
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
-                        </div>
+                            </div>
 
                     </div>
                 </div>

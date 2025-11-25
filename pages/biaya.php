@@ -108,10 +108,10 @@
                                         </svg>
                                     </button>
                                     <div class="show-action hidden absolute flex-col w-48 mt-1 drop-shadow-lg">
-                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Biaya</a>
-                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Withdraw</a>
-                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Deposit</a>
-                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="#"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Transfer</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="kelola_1.php?buat_transaksi_biaya"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Biaya</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="kelola_1.php?buat_transaksi_withdraw"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Withdraw</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="kelola_1.php?buat_transaksi_deposit"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Deposit</a>
+                                        <a class="flex items-center h-8 px-3 text-[12px] font-semibold bg-gray-100 hover:bg-primary hover:text-white gap-1 group" href="kelola_1.php?buat_transaksi_transfer"><i class="fa-solid fa-plus text-primary group-hover:text-white"></i>Buat Transaksi Transfer</a>
                                     </div>
                                 </div>
     
